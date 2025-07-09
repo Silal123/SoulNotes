@@ -16,12 +16,17 @@ import dev.silal.soulnotes.notes.NoteManager;
 import dev.silal.soulnotes.notes.spawner.NoteSpawner;
 import dev.silal.soulnotes.placeholder.SoulNotesPlaceholder;
 import dev.silal.soulnotes.protektion.ProtectionManager;
+import dev.silal.soulnotes.utils.JsonManager;
 import dev.silal.soulnotes.utils.Metrics;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.xml.crypto.Data;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public final class SoulNotes extends JavaPlugin {
 
@@ -50,13 +55,18 @@ public final class SoulNotes extends JavaPlugin {
         instance = this;
         if (!getDataFolder().exists()) getDataFolder().mkdirs();
 
+        getLogger().info("Starting SoulNotes...");
+
         this.configuration = new Configuration(this);
         connectDatabase();
 
         this.noteSpawner = new NoteSpawner(this);
         this.noteManager = new NoteManager(this);
+
+        getLogger().info("Creating all Notes...");
         noteSpawner.removeAllNotes();
         noteSpawner.spawnAllNotes();
+
         this.protectionManager = new ProtectionManager(this);
         this.metrics = new Metrics(this, 26445);
 
@@ -75,6 +85,41 @@ public final class SoulNotes extends JavaPlugin {
         }
 
         Scheduler.start();
+
+        getLogger().info("Checking for updates...");
+        checkForUpdates();
+    }
+
+    private void checkForUpdates() {
+        getServer().getScheduler().runTaskAsynchronously(this, () -> {
+            try {
+                String apiUrl = "https://api.github.com/repos/Silal123/SoulNotes/releases/latest";
+                HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+                connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder json = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    json.append(line);
+                }
+
+                JsonManager release = new JsonManager(json.toString());
+                String latestVersion = release.getString("tag_name").replace("v", "");
+
+                String currentVersion = getDescription().getVersion();
+
+                if (!currentVersion.equalsIgnoreCase(latestVersion)) {
+                    getLogger().warning("There is a new version available: " + latestVersion);
+                    getLogger().warning("You are using: " + currentVersion);
+                } else {
+                    getLogger().info("Your plugin is up to date!");
+                }
+
+            } catch (Exception e) {
+                getLogger().warning("Error while checking for updates: " + e.getMessage());
+            }
+        });
     }
 
     private void initListener() {

@@ -26,8 +26,9 @@ public class Configuration extends dev.silal.soulnotes.utils.config.Configuratio
 
     private final ConfigValue<Boolean> needsPermissionToCreate = new ConfigValue<>("notes.create.permission", Boolean.class, this, false);
 
-    private final ConfigValue<Boolean> noteTextHologramEnabled = new ConfigValue<>("notes.hologram.text", Boolean.class, this, true);
-    private final ConfigValue<Boolean> noteCreatedHologramEnabled = new ConfigValue<>("notes.hologram.created", Boolean.class, this, true);
+    private final ConfigValue<Boolean> noteTitleEnabled = new ConfigValue<>("notes.hologram.title.enabled", Boolean.class, this, true);
+    private final ConfigValue<Boolean> noteFooterEnabled = new ConfigValue<>("notes.hologram.footer.enabled", Boolean.class, this, true);
+    private final ConfigValue<String> noteFooterType = new ConfigValue<>("notes.hologram.footer.type", String.class, this, "likes");
 
     private final ListConfigValue<String> blackListedWorlds = new ListConfigValue<>("notes.worlds.blacklist", String.class, this, List.of("no_notes"));
 
@@ -96,11 +97,15 @@ public class Configuration extends dev.silal.soulnotes.utils.config.Configuratio
         return worldGuardProtectionEnabled.get();
     }
 
-    public boolean getHologramTextEnabled() {
-        return noteTextHologramEnabled.get();
+    public boolean getHologramTitleEnabled() {
+        return noteTitleEnabled.get();
     }
 
-    public boolean getHologramCreatedEnabled() {
-        return noteCreatedHologramEnabled.get();
+    public boolean getHologramFooterEnabled() {
+        return noteFooterEnabled.get();
+    }
+
+    public String getHologramFooterType() {
+        return noteFooterType.get();
     }
 }

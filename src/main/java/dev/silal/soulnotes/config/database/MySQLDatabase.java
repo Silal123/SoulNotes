@@ -42,7 +42,7 @@ public class MySQLDatabase implements Database {
 
     @Override
     public void setup() throws Exception {
-        statement.execute("CREATE TABLE IF NOT EXISTS notes (id BIGINT PRIMARY KEY AUTO_INCREMENT, creator VARCHAR(36), message TEXT, created_at TEXT, x DOUBLE, y DOUBLE, z DOUBLE, world TEXT);");
+        statement.execute("CREATE TABLE IF NOT EXISTS notes (id BIGINT PRIMARY KEY AUTO_INCREMENT, creator VARCHAR(36), message TEXT, created_at TEXT, x DOUBLE, y DOUBLE, z DOUBLE, world TEXT, likes TEXT);");
     }
 
     @Override

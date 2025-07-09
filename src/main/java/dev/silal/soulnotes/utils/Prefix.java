@@ -10,6 +10,7 @@ public enum Prefix {
     HEY("§c§lHey! ", false),
     X("§c§l[x] ", false),
     V("§a§l[✔] ", false),
+    LIKE("§c§l[♥] ", false),
     SYSTEM("§5§lS§d§lN ", false);
 
     Prefix(String key, boolean prefix) {

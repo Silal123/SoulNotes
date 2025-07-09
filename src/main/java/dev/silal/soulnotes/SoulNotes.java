@@ -1,6 +1,7 @@
 package dev.silal.soulnotes;
 
 import dev.silal.soulnotes.commands.notes.DeleteNoteCommand;
+import dev.silal.soulnotes.commands.notes.LikeNoteCommand;
 import dev.silal.soulnotes.commands.notes.NoteCommand;
 import dev.silal.soulnotes.commands.notes.tab.DeleteTabCompleter;
 import dev.silal.soulnotes.config.Configuration;
@@ -62,6 +63,8 @@ public final class SoulNotes extends JavaPlugin {
 
         getCommand("deletesoulnote").setExecutor(new DeleteNoteCommand());
         getCommand("deletesoulnote").setTabCompleter(new DeleteTabCompleter());
+
+        getCommand("likesoulnote").setExecutor(new LikeNoteCommand());
 
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new SoulNotesPlaceholder(this).register();

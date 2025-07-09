@@ -21,3 +21,11 @@ commands:
       - deletenote
       - dn
       - sdn
+  likesoulnote:
+    description: Like a note
+    aliases:
+      - likenote
+      - ln
+      - sln
+      - lnote
+      - liken

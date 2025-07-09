@@ -42,7 +42,7 @@ public class NoteSpawner {
         OfflinePlayer player = null;
         if (creator != null) player = plugin.getServer().getOfflinePlayer(creator);
 
-        if (plugin.getConfiguration().getHologramTextEnabled()) {
+        if (plugin.getConfiguration().getHologramTitleEnabled()) {
             TextDisplay title = location.getWorld().spawn(location.clone().add(0, 1.5, 0), TextDisplay.class);
             title.setText(player == null || player.getName() == null ? "§8✎§7 Read message" : "§8✎§7 Read message of §e" + player.getName());
             title.setAlignment(TextDisplay.TextAlignment.CENTER);
@@ -53,20 +53,26 @@ public class NoteSpawner {
             title.addScoreboardTag("note_display");
             title.addScoreboardTag("note_title");
             title.addScoreboardTag("note_id_" + id);
+        }
 
-            if (plugin.getConfiguration().getHologramCreatedEnabled()) {
-                Date created = note.getCreatedAt();
-                TextDisplay createdAt = location.getWorld().spawn(location.clone().add(0, 1.2, 0), TextDisplay.class);
-                createdAt.setText(created == null ? "§eUnknown" : "§a" + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(created));
-                createdAt.setAlignment(TextDisplay.TextAlignment.CENTER);
-                createdAt.setDefaultBackground(false);
-                createdAt.setPersistent(true);
-                createdAt.setBillboard(Display.Billboard.VERTICAL);
+        if (plugin.getConfiguration().getHologramFooterEnabled()) {
+            Date created = note.getCreatedAt();
+            TextDisplay footer = location.getWorld().spawn(location.clone().add(0, 1.2, 0), TextDisplay.class);
 
-                createdAt.addScoreboardTag("note_display");
-                createdAt.addScoreboardTag("note_created");
-                createdAt.addScoreboardTag("note_id_" + id);
+            if (plugin.getConfiguration().getHologramFooterType().equalsIgnoreCase("likes")) {
+                footer.setText("§c" + note.getLikes().size() + "♥");
+            } else {
+                footer.setText(created == null ? "§eUnknown" : "§a" + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(created));
             }
+
+            footer.setAlignment(TextDisplay.TextAlignment.CENTER);
+            footer.setDefaultBackground(false);
+            footer.setPersistent(true);
+            footer.setBillboard(Display.Billboard.VERTICAL);
+
+            footer.addScoreboardTag("note_display");
+            footer.addScoreboardTag("note_created");
+            footer.addScoreboardTag("note_id_" + id);
         }
 
         ItemDisplay book = location.getWorld().spawn(location.clone().add(0, 0.05, 0), ItemDisplay.class);

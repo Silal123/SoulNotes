@@ -20,6 +20,9 @@ import org.bukkit.inventory.meta.BookMeta;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class PlayerInteractEntityListener implements Listener {
 
@@ -64,16 +67,31 @@ public class PlayerInteractEntityListener implements Listener {
 
             addPagedContent(meta, noteText);
 
+
+            List<BaseComponent> interactionsPage = new ArrayList<>();
+
+            List<UUID> likes = note.getLikes();
+            TextComponent like = new TextComponent("§c" + likes.size() + "♥ [Like]");
+            like.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/likesoulnote " + id));
+            like.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§7Click to like this post")));
+
+            interactionsPage.add(like);
+
             if ((note.getCreator() != null && note.getCreator().equals(event.getPlayer().getUniqueId())) || event.getPlayer().hasPermission(Permissions.MANAGE_NOTES.perm())) {
-                TextComponent component = new TextComponent("§c[Delete]");
+                TextComponent component = new TextComponent("\n\n§c[Delete]");
                 component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/deletesoulnote " + id));
                 component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§7Click to delete this note")));
 
-                TextComponent creator = new TextComponent("\nCreator: §2" + (player != null && player.getName() != null ? player.getName() : "Unknown") + " (" + note.getCreator() + ")");
+                TextComponent creator = new TextComponent("\n\nCreator: §2" + (player != null && player.getName() != null ? player.getName() : "Unknown") + " (" + note.getCreator() + ")");
                 TextComponent createdAt = new TextComponent("\nCreated at: §6" + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(note.getCreatedAt()));
 
-                meta.spigot().addPage(new BaseComponent[]{ component, creator, createdAt });
+                interactionsPage.add(creator);
+                interactionsPage.add(createdAt);
+
+                interactionsPage.add(component);
             }
+
+            meta.spigot().addPage(interactionsPage.toArray(new BaseComponent[0]));
 
             meta.setAuthor(player == null && player.getName() == null ? "Unknown" : player.getName());
             book.setItemMeta(meta);

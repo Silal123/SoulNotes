@@ -30,7 +30,7 @@ public class NoteCommand implements CommandExecutor {
         }
 
         if (SoulNotes.getInstance().getConfiguration().getWorldGuardProtectionEnabled() && SoulNotes.getInstance().getProtectionManager().getWorldGuardManager() != null && !SoulNotes.getInstance().getProtectionManager().getWorldGuardManager().canBuild(p, p.getLocation())) {
-            p.sendMessage(Prefix.X.key() + "§eWorldGuard§7 restricts you to note here!");
+            p.sendMessage(Prefix.X.key() + "§eWorldGuard§7 restricts you to create notes here!");
             return true;
         }
 

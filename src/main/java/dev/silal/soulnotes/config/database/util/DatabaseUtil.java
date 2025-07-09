@@ -138,7 +138,7 @@ public class DatabaseUtil {
     }
 
     public static long countEntries(String table, String where, Statement statement) throws SQLException {
-        String query = "SELECT COUNT(*) AS count FROM " + table + " WHERE " + where;
+        String query = "SELECT COUNT(*) AS count FROM " + table + (where == null ? "" : " WHERE " + where);
         ResultSet rs = statement.executeQuery(query);
         if (rs.next()) {
             return rs.getLong("count");

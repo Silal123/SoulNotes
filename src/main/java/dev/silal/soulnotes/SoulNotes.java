@@ -8,6 +8,7 @@ import dev.silal.soulnotes.config.Configuration;
 import dev.silal.soulnotes.config.database.Database;
 import dev.silal.soulnotes.config.database.MySQLDatabase;
 import dev.silal.soulnotes.config.database.SQLiteDatabase;
+import dev.silal.soulnotes.config.database.util.DatabaseUtil;
 import dev.silal.soulnotes.listeners.player.PlayerInteractEntityListener;
 import dev.silal.soulnotes.listeners.player.PlayerInteractListener;
 import dev.silal.soulnotes.notes.Note;
@@ -15,6 +16,7 @@ import dev.silal.soulnotes.notes.NoteManager;
 import dev.silal.soulnotes.notes.spawner.NoteSpawner;
 import dev.silal.soulnotes.placeholder.SoulNotesPlaceholder;
 import dev.silal.soulnotes.protektion.ProtectionManager;
+import dev.silal.soulnotes.utils.Metrics;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,6 +43,8 @@ public final class SoulNotes extends JavaPlugin {
     private ProtectionManager protectionManager;
     public ProtectionManager getProtectionManager() { return protectionManager; }
 
+    private Metrics metrics;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -51,20 +55,20 @@ public final class SoulNotes extends JavaPlugin {
 
         this.noteSpawner = new NoteSpawner(this);
         this.noteManager = new NoteManager(this);
-
         noteSpawner.removeAllNotes();
         noteSpawner.spawnAllNotes();
-
         this.protectionManager = new ProtectionManager(this);
+        this.metrics = new Metrics(this, 26445);
+
+        metrics.addCustomChart(new Metrics.SingleLineChart("average_notes", () -> {
+            try {
+                return Math.toIntExact(DatabaseUtil.countEntries("notes", null, database.getStatement()));
+            } catch (Exception e) {}
+            return 0;
+        }));
 
         initListener();
-
-        getCommand("soulnote").setExecutor(new NoteCommand());
-
-        getCommand("deletesoulnote").setExecutor(new DeleteNoteCommand());
-        getCommand("deletesoulnote").setTabCompleter(new DeleteTabCompleter());
-
-        getCommand("likesoulnote").setExecutor(new LikeNoteCommand());
+        initCommands();
 
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new SoulNotesPlaceholder(this).register();
@@ -77,6 +81,13 @@ public final class SoulNotes extends JavaPlugin {
         PluginManager manager = getServer().getPluginManager();
         manager.registerEvents(new PlayerInteractEntityListener(), this);
         manager.registerEvents(new PlayerInteractListener(),this);
+    }
+
+    private void initCommands() {
+        getCommand("soulnote").setExecutor(new NoteCommand());
+        getCommand("deletesoulnote").setExecutor(new DeleteNoteCommand());
+        getCommand("deletesoulnote").setTabCompleter(new DeleteTabCompleter());
+        getCommand("likesoulnote").setExecutor(new LikeNoteCommand());
     }
 
     private void connectDatabase() {

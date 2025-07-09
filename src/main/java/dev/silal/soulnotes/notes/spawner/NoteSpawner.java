@@ -60,6 +60,7 @@ public class NoteSpawner {
         createdAt.setGravity(false);
         createdAt.setInvisible(true);
         createdAt.setCustomNameVisible(true);
+        createdAt.setInvulnerable(true);
         createdAt.setCustomName((created == null ? "§eUnknown" : "§a" + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(created)));
 
         createdAt.addScoreboardTag("note_display");

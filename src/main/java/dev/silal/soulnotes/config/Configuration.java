@@ -18,8 +18,8 @@ public class Configuration extends dev.silal.soulnotes.utils.config.Configuratio
     private final ConfigValue<String> mysqlHost = new ConfigValue<>("database.mysql.host", String.class, this, "127.0.0.1");
     private final ConfigValue<Integer> mysqlPort = new ConfigValue<>("database.mysql.port", Integer.class, this, 3306);
     private final ConfigValue<String> mysqlDatabase = new ConfigValue<>("database.mysql.database", String.class, this, "soulnotes");
-    private final ConfigValue<String> mysqlUsername = new ConfigValue<>("database.mysql.user", String.class, this);
-    private final ConfigValue<String> mysqlPassword = new ConfigValue<>("database.mysql.password", String.class, this);
+    private final ConfigValue<String> mysqlUsername = new ConfigValue<>("database.mysql.user", String.class, this, "user");
+    private final ConfigValue<String> mysqlPassword = new ConfigValue<>("database.mysql.password", String.class, this, "password");
 
     private final ConfigValue<Integer> minNoteDistance = new ConfigValue<>("note.distance", Integer.class, this, 5);
     private final ConfigValue<Integer> playerNotesMax = new ConfigValue<>("notes.player.max", Integer.class, this, 50);

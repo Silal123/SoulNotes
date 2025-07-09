@@ -50,7 +50,7 @@ public class DeleteNoteCommand implements CommandExecutor {
                 SoulNotes.getInstance().getNoteManager().deleteNote(note.getId());
             });
 
-            sender.sendMessage(Prefix.SYSTEM.key() + "Deleted all notes");
+            sender.sendMessage(Prefix.SYSTEM.key() + "Deleted §eall§7 created notes");
             return true;
         }
 
@@ -58,7 +58,7 @@ public class DeleteNoteCommand implements CommandExecutor {
         try {
             intId = Integer.valueOf(id);
         } catch (Exception e) {
-            sender.sendMessage(Prefix.SYSTEM.key() + "Please use number or all");
+            sender.sendMessage(Prefix.SYSTEM.key() + "Please use §enumber or all§7");
             return true;
         }
 
@@ -72,12 +72,12 @@ public class DeleteNoteCommand implements CommandExecutor {
         }
 
         if (!sender.hasPermission(Permissions.MANAGE_NOTES.perm()) && !isOwner) {
-            sender.sendMessage(Prefix.X.key() + "You are not permitted to delete this note!");
+            sender.sendMessage(Prefix.X.key() + "You are §enot permitted§7 to delete this note!");
             return true;
         }
 
         SoulNotes.getInstance().getNoteManager().deleteNote(intId);
-        sender.sendMessage(Prefix.SYSTEM.key() + "Deleted note " + intId);
+        sender.sendMessage(Prefix.SYSTEM.key() + "Deleted note with id §e" + id);
         return true;
     }
 }

@@ -43,50 +43,33 @@ public class NoteSpawner {
         if (creator != null) player = plugin.getServer().getOfflinePlayer(creator);
 
         if (plugin.getConfiguration().getHologramTextEnabled()) {
-            ArmorStand title = location.getWorld().spawn(location.clone().add(0, 0.25, 0), ArmorStand.class);
-            title.setVisible(false);
-            title.setMarker(false);
-            title.setGravity(false);
-            title.setCustomNameVisible(true);
-            title.setCustomName(player == null || player.getName() == null ? "§8✎§7 Read message" : "§8✎§7 Read message of §e" + player.getName());
-            title.setInvulnerable(true);
+            TextDisplay title = location.getWorld().spawn(location.clone().add(0, 1.5, 0), TextDisplay.class);
+            title.setText(player == null || player.getName() == null ? "§8✎§7 Read message" : "§8✎§7 Read message of §e" + player.getName());
+            title.setAlignment(TextDisplay.TextAlignment.CENTER);
+            title.setDefaultBackground(false);
+            title.setPersistent(true);
+            title.setBillboard(Display.Billboard.VERTICAL);
 
             title.addScoreboardTag("note_display");
             title.addScoreboardTag("note_title");
             title.addScoreboardTag("note_id_" + id);
 
-            Date created = note.getCreatedAt();
-            ArmorStand createdAt = location.getWorld().spawn(location.clone().add(0, 0, 0), ArmorStand.class);
-            createdAt.setVisible(false);
-            createdAt.setMarker(false);
-            createdAt.setGravity(false);
-            createdAt.setCustomNameVisible(true);
-            createdAt.setInvulnerable(true);
-            createdAt.setCustomName((created == null ? "§eUnknown" : "§a" + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(created)));
+            if (plugin.getConfiguration().getHologramCreatedEnabled()) {
+                Date created = note.getCreatedAt();
+                TextDisplay createdAt = location.getWorld().spawn(location.clone().add(0, 1.2, 0), TextDisplay.class);
+                createdAt.setText(created == null ? "§eUnknown" : "§a" + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(created));
+                createdAt.setAlignment(TextDisplay.TextAlignment.CENTER);
+                createdAt.setDefaultBackground(false);
+                createdAt.setPersistent(true);
+                createdAt.setBillboard(Display.Billboard.VERTICAL);
 
-            createdAt.addScoreboardTag("note_display");
-            createdAt.addScoreboardTag("note_created");
-            createdAt.addScoreboardTag("note_id_" + id);
+                createdAt.addScoreboardTag("note_display");
+                createdAt.addScoreboardTag("note_created");
+                createdAt.addScoreboardTag("note_id_" + id);
+            }
         }
 
-        /*ArmorStand book = location.getWorld().spawn(location.clone().add(0, -1.6, -0.7), ArmorStand.class);
-        book.setVisible(false);
-        book.setMarker(true);
-        book.setGravity(false);
-        book.setInvulnerable(true);
-        book.setBasePlate(false);
-
-        book.getEquipment().setHelmet(new ItemStack(Material.WRITTEN_BOOK));
-
-        book.setHeadPose(new EulerAngle(Math.toRadians(90), 0, 0));
-
-        book.addScoreboardTag("note_display");
-        book.addScoreboardTag("note_book");
-        book.addScoreboardTag("note_id_" + id);
-        */
-
         ItemDisplay book = location.getWorld().spawn(location.clone().add(0, 0.05, 0), ItemDisplay.class);
-
         book.setItemStack(new ItemStack(Material.WRITTEN_BOOK));
         book.setRotation(0, 90);
         book.setGravity(false);

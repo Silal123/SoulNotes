@@ -26,6 +26,8 @@ public class Configuration extends dev.silal.soulnotes.utils.config.Configuratio
 
     private final ConfigValue<Boolean> needsPermissionToCreate = new ConfigValue<>("notes.create.permission", Boolean.class, this, false);
 
+    private final ConfigValue<Boolean> noteTextHologramEnabled = new ConfigValue<>("notes.hologram.text", Boolean.class, this, true);
+
     private final ListConfigValue<String> blackListedWorlds = new ListConfigValue<>("notes.worlds.blacklist", String.class, this, List.of("no_notes"));
 
     private final ConfigValue<Boolean> spawnProtectionEnabled = new ConfigValue<>("protection.spawn.enabled", Boolean.class, this, true);
@@ -91,5 +93,9 @@ public class Configuration extends dev.silal.soulnotes.utils.config.Configuratio
 
     public boolean getWorldGuardProtectionEnabled() {
         return worldGuardProtectionEnabled.get();
+    }
+
+    public boolean getHologramTextEnabled() {
+        return noteTextHologramEnabled.get();
     }
 }

@@ -1,0 +1,23 @@
+name: SoulNotes
+version: '${version}'
+main: dev.silal.soulnotes.SoulNotes
+api-version: '1.17'
+
+softdepend:
+  - PlaceholderAPI
+  - WorldGuard
+
+commands:
+  soulnote:
+    description: Create a note
+    aliases:
+      - n
+      - sn
+      - snote
+      - note
+  deletesoulnote:
+    description: Delete a note
+    aliases:
+      - deletenote
+      - dn
+      - sdn

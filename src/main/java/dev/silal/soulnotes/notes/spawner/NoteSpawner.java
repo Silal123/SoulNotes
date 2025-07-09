@@ -92,14 +92,20 @@ public class NoteSpawner {
         book.setGravity(false);
         book.setPersistent(true);
         book.setInvulnerable(true);
-        book.setDisplayWidth(0.2f);
-        book.setDisplayHeight(0.2f);
 
         book.setTransformation(new Transformation(new Vector3f(0, 0, 0), new AxisAngle4f(), new Vector3f(0.5f, 0.5f, 0.5f), new AxisAngle4f()));
 
         book.addScoreboardTag("note_display");
         book.addScoreboardTag("note_book");
         book.addScoreboardTag("note_id_" + id);
+
+        Interaction interaction = location.getWorld().spawn(location, Interaction.class);
+        interaction.setInteractionHeight(0.5f);
+        interaction.setInteractionWidth(0.5f);
+
+        interaction.addScoreboardTag("note_display");
+        interaction.addScoreboardTag("note_interaction");
+        interaction.addScoreboardTag("note_id_" + id);
     }
 
     public void removeAllNotes() {

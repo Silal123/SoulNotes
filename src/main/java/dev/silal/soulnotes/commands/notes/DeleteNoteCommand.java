@@ -66,7 +66,7 @@ public class DeleteNoteCommand implements CommandExecutor {
 
         boolean isOwner = false;
         if (sender instanceof Player p) {
-            if (!p.getUniqueId().equals(note.getCreator())) {
+            if (p.getUniqueId().equals(note.getCreator())) {
                 isOwner = true;
             }
         }

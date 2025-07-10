@@ -47,6 +47,10 @@ public class LikeNoteCommand implements CommandExecutor {
             likes.add(p.getUniqueId());
         }
         note.setLikes(likes);
+
+        SoulNotes.getInstance().getNoteSpawner().deleteNote(note.getId());
+        SoulNotes.getInstance().getNoteSpawner().spawnNote(note);
+
         return true;
     }
 }

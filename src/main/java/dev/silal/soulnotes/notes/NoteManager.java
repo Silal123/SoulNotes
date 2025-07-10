@@ -130,7 +130,6 @@ public class NoteManager {
 
                 if (distanceSquared <= radiusSquared) {
                     int id = rs.getInt("id");
-                    System.out.println("in radius: " + id);
                     result.add(getNote(id));
                 }
             }

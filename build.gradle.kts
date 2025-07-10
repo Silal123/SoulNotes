@@ -36,7 +36,7 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:3.45.3.0")
 }
 
-val targetJavaVersion = 16
+val targetJavaVersion = 17
 java {
     val javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

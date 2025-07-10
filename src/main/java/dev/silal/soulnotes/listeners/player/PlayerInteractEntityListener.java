@@ -67,7 +67,6 @@ public class PlayerInteractEntityListener implements Listener {
 
             addPagedContent(meta, noteText);
 
-
             List<BaseComponent> interactionsPage = new ArrayList<>();
 
             List<UUID> likes = note.getLikes();
@@ -93,12 +92,15 @@ public class PlayerInteractEntityListener implements Listener {
 
             meta.spigot().addPage(interactionsPage.toArray(new BaseComponent[0]));
 
-            meta.setAuthor(player == null && player.getName() == null ? "Unknown" : player.getName());
+            String authorName = (player != null && player.getName() != null) ? player.getName() : "Unknown";
+            meta.setAuthor(authorName);
+            meta.setTitle("Soul Note");
+
             book.setItemMeta(meta);
 
             event.getPlayer().openBook(book);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

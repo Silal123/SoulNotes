@@ -62,7 +62,17 @@ public class DeleteNoteCommand implements CommandExecutor {
             return true;
         }
 
+        if (!SoulNotes.getInstance().getNoteManager().noteExists(intId)) {
+            sender.sendMessage(Prefix.SYSTEM.key() + "No note with the id §e" + id + "§7 found!");
+            return true;
+        }
+
         Note note = SoulNotes.getInstance().getNoteManager().getNote(intId);
+
+        if (note == null) {
+            sender.sendMessage(Prefix.SYSTEM.key() + "No note with the id §e" + id + "§7 found!");
+            return true;
+        }
 
         boolean isOwner = false;
         if (sender instanceof Player p) {
